@@ -25,10 +25,44 @@
       "position": [0,-1,0]
     }
   },
-  "ambiance1": {
+  "ghost": {
     "sound1": {
-      "path": "avion1.flac",
-      "position": [4,-4,0]
+      "path": "ghost_breaths.wav",
+      "position": [3,2,3]
+    },
+    "sound2": {
+      "path": "ghost_door.wav",
+      "position": [-4,-3,3]
+    },
+    "sound3": {
+      "path": "ghost_noise.wav",
+      "position": [4,1,3]
+    },
+    "sound4": {
+      "path": "ghost_piano.wav",
+      "position": [0,-3,3]
+    },
+    "sound5": {
+      "path": "ghost_whispers.wav",
+      "position": [-3,-2,3]
+    }
+  },
+  "cadenas": {
+    "sound1": {
+      "path": "bip1_1.wav",
+      "position": [-2,-2,3]
+    },
+    "sound2": {
+      "path": "bip2_7.wav",
+      "position": [-2,2,3]
+    },
+    "sound3": {
+      "path": "bip3_5.wav",
+      "position": [2,2,3]
+    },
+    "sound4": {
+      "path": "bip4_7.wav",
+      "position": [2,-2,3]
     }
   }
 }
