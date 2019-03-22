@@ -3,13 +3,14 @@ import websockets
 import json
 from openal import *
 import audioread
+import socket
 
 #SETTINGS
-IP = '192.168.43.254'
+IP = socket.gethostbyname(socket.gethostname())
 PORT = 8080
 
 #PATHS
-SOUND_DIRECTORY = "../sounds/"
+SOUND_DIRECTORY = "sounds/"
 AMBIANCE_PATH = SOUND_DIRECTORY + "ambiances.json"
 
 global gsocket
@@ -103,7 +104,10 @@ async def main(websocket, path):
             print(ambiancelist)
 
 #INIT SPACE
-oalInit(b"OpenAL Soft on Haut-parleurs (2- USB Sound Device        )")
+
+#When speakers are connected use the first line
+#oalInit(b"OpenAL Soft on Haut-parleurs (2- USB Sound Device        )")
+oalInit()
 
 contextlistener = oalGetListener()  #context listener represent the human listening in the room
 contextlistener.set_position((0, 0, 0))

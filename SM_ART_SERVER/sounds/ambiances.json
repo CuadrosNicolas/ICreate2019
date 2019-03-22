@@ -1,0 +1,34 @@
+{
+  "chasse": {
+    "sound1": {
+      "path": "chasse_dogs.wav",
+      "position": [0,0,0]
+    },
+    "sound2": {
+      "path": "chasse_gunshot.wav",
+      "position": [4,-4,0]
+    },
+    "sound3": {
+      "path": "chasse_gunshot_distant.wav",
+      "position": [0,-4,0]
+    },
+    "sound4": {
+      "path": "chasse_gunshot_short.wav",
+      "position": [-4,4,0]
+    },
+    "sound5": {
+      "path": "chasse_horses.wav",
+      "position": [4,0,0]
+    },
+    "sound6": {
+      "path": "chasse_forest_footsteps.wav",
+      "position": [0,-1,0]
+    }
+  },
+  "ambiance1": {
+    "sound1": {
+      "path": "avion1.flac",
+      "position": [4,-4,0]
+    }
+  }
+}
