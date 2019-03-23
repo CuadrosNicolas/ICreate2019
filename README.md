@@ -39,7 +39,14 @@ Attention, votre téléphone doit être muni de la technologie NFC.
 
 #### Installation à partir des sources
 
-Rendez-vous dans le [dossier de l'application](./SM_ART), ensuite vous pouvez suivre le [tutoriel suivant](https://facebook.github.io/react-native/docs/running-on-device) afin de compiler le code.
+Si vous souhaitez construire l'application par vous même il vous faut d'abord vous procurer [node js](https://nodejs.org/en/).
+
+Ensuite ans le [dossier de l'application](./SM_ART), lancer la commande suivante :
+```bash
+npm install
+```
+
+Après cette étape il vous faudra également compiler le code en utilisant react-native, pour cela vous pouvez suivre le [tutoriel suivant](https://facebook.github.io/react-native/docs/running-on-device) afin de compiler le code.
 
 Et finalement si vous souhaitez produire une version signée de l'application vous pouvez suivre [ce tutoriel](https://facebook.github.io/react-native/docs/signed-apk-android).
 
