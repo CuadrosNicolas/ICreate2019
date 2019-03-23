@@ -2,7 +2,7 @@ import React, {
 	Component,
 } from 'react';
 import { Animated,Image, View, Text,StyleSheet } from 'react-native'
-
+import { play_sound, stop_sound, play_ambiance, stop_ambiance } from '../../communications';
 import { gyroscopeHandler, lightHandler } from '../../events';
 import { app,Tags,TagsHandler} from './enigmaBase'
 export class SwaperView extends Component {
@@ -10,6 +10,7 @@ export class SwaperView extends Component {
 		super(props)
 		this.threshold = 3;
 		this.solution = 2;
+		this.previous = -1;
 		this.state = {
 			fadeAnim: new Animated.Value(0),  // Initial value for opacity: 0
 			sizeAnim: new Animated.Value(150),
@@ -30,6 +31,13 @@ export class SwaperView extends Component {
 				duration: 2000,
 			}
 		).start(()=>this.setState({animInProgress:false}));
+	}
+	setPicture()
+	{
+		this.setState({ actualPiture: this.picture[this.state.num] });
+		if(this.previous>=0)
+			stop_sound("auteur"+(this.previous+1));
+		play_sound("auteur"+(this.state.num+1));
 	}
 	anim_right() {
 		this.state.animInProgress = true;
@@ -65,10 +73,11 @@ export class SwaperView extends Component {
 				sizeAnim: new Animated.Value(150),
 				posAnim: new Animated.Value(-100)
 			});
+			this.previous = this.state.num;
 			this.state.num -= 1;
 			if(this.state.num<0)
 				this.state.num = this.picture.length-1;
-			this.setState({ actualPiture: this.picture[this.state.num] });
+			this.setPicture();
 
 			Animated.sequence([
 				Animated.timing(
@@ -131,10 +140,11 @@ export class SwaperView extends Component {
 			)
 		]).start(()=>
 		{
+			this.previous = this.state.num;
 			this.state.num += 1;
 			if (this.state.num >= this.picture.length)
 				this.state.num = 0;
-			this.setState({actualPiture :this.picture[this.state.num]});
+			this.setPicture();
 
 			this.setState({
 				fadeAnim: new Animated.Value(0),
@@ -185,9 +195,10 @@ export class SwaperView extends Component {
 	{
 		if(this.state.continue)
 		{
+			stop_sound("auteur" + (this.state.num - 1));
 			if(this.state.num==this.solution)
 			{
-				//BRAVO
+				play_sound("final_moins_bien");
 			}
 			else
 			{
@@ -230,6 +241,7 @@ export class SwaperView extends Component {
 				alert(e);
 			}
 		});
+		this.setPicture();
 	}
 	componentWillUnmount() {
 

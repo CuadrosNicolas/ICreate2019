@@ -26,11 +26,11 @@ export class GameView extends Component {
 		setApp(this);
 		this.seqView = [
 			<BreathingView duration={3000}></BreathingView>,
-			<SwaperView></SwaperView>,
 			<LumenView></LumenView>,
 			<GuitarView></GuitarView>,
 			<FillingCircleView></FillingCircleView>,
 			<SoundView></SoundView>,
+			<SwaperView></SwaperView>,
 		];
 		this.state = { step: 0 };
 	}
@@ -43,6 +43,10 @@ export class GameView extends Component {
 	}
 	nextTimed(duration) {
 		this.seqView.splice(this.state.step+1, 0, <BreathingView duration={duration}></BreathingView>)
+		this.setState({ step: this.state.step + 1 });
+	}
+	nextSound(sound) {
+		this.seqView.splice(this.state.step + 1, 0, <BreathingView sound={sound}></BreathingView>)
 		this.setState({ step: this.state.step + 1 });
 	}
 	render() {

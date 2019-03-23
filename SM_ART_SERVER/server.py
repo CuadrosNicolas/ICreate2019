@@ -4,9 +4,10 @@ import json
 from openal import *
 import audioread
 import socket
+import subprocess
 
 #SETTINGS
-IP = socket.gethostbyname(socket.gethostname())
+IP = subprocess.check_output(["hostname","-I"]).decode().split(" ")[0]
 PORT = 8080
 
 #PATHS
@@ -59,7 +60,6 @@ def play(sound):
         soundlist[sound] = source
     source.play()
     print(soundlist)
-
     return str(audioread.audio_open(soundpath).duration)
 
 def pause(sound):
@@ -69,7 +69,7 @@ def pause(sound):
     print(soundlist)
 
 def stop(sound):
-    soundpath = SOUND_DIRECTORY + sound + ".mp3"
+    soundpath = SOUND_DIRECTORY + sound + ".wav"
     print('stop ' + soundpath)
     soundlist[sound].stop()
     del soundlist[sound]

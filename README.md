@@ -32,7 +32,7 @@ Il y a également divers sons d'ambiance lors de la résolution d'énigme en lie
 
 #### Installation directe
 
-L'application peut être retrouvée sous le [dossier](./SM_ART/).
+L'application peut être retrouvée sous ce [dossier](./SM_ART/).
 Afin d'installer l'application vous pouvez utiliser directement l'APK fourni dans le [dossier correspondant](./SM_ART/apk), ensuite vous pouvez suivre le tutoriel [suivant](https://www.wondershare.com/fr/mobile-phone/installer-android-application.html) pour l'installer sur un téléphone  .
 
 Attention, votre téléphone doit être muni de la technologie NFC.

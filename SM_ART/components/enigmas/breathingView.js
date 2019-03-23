@@ -3,6 +3,8 @@ import React, {
 } from 'react';
 import { Animated ,View} from 'react-native'
 import { app } from './enigmaBase';
+import { setMessageHandler } from '../../communications';
+import { play_sound, stop_sound, play_ambiance, stop_ambiance } from '../../communications';
 
 export class BreathingView extends Component {
 	/**
@@ -35,7 +37,7 @@ export class BreathingView extends Component {
 					duration: 1000,              // Make it take a while
 				}
 			)
-		]).start(()=>{app.next()});
+		]).start(()=>{alert("next");app.next()});
 	}
 	anim() {
 		if(this.state.continue)
@@ -81,7 +83,19 @@ export class BreathingView extends Component {
 			sizeAnim: new Animated.Value(0),
 			continue: true
 		});
-		setTimeout(() => this.stop(), this.props.duration);
+		if(this.props.sound){
+			alert("AH");
+			play_sound(this.props.sound);
+			setMessageHandler(({data})=>{
+				alert("TIME : "+data);
+				setTimeout(() => {stop_sound(this.props.sound),this.stop();}, parseInt(data)*1000 );
+				setMessageHandler(()=>{});
+			})
+		}
+		else if(this.props.duration)
+		{
+			setTimeout(() => this.stop(), this.props.duration);
+		}
 		Animated.parallel([
 			Animated.timing(                  // Animate over time
 				this.state.sizeAnim,            // The animated value to drive

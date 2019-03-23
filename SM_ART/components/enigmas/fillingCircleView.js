@@ -3,7 +3,8 @@ import React, {
 } from 'react';
 import { Image, View, StyleSheet,Animated } from 'react-native'
 import { ShakingHandler } from '../../events';
-import { app,Tags,TagsHandler } from './enigmaBase'
+import { app,Tags,TagsHandler } from './enigmaBase';
+import { play_sound, stop_sound, play_ambiance,stop_ambiance } from '../../communications';
 export class FillingCircleView extends Component {
 	constructor(props) {
 		super(props)
@@ -18,10 +19,11 @@ export class FillingCircleView extends Component {
 				toValue: 0,                   // Animate to opacity: 1 (opaque)
 				duration: 1000,              // Make it take a while
 			}
-		).start(() => {	app.nextTimed(5000);
+		).start(() => {	app.nextSound("enigme3");
 		});
 	}
 	componentDidMount() {
+		play_ambiance("chasse");
 		Animated.timing(                  // Animate over time
 			this.state.fadeAnim,            // The animated value to drive
 			{
@@ -30,6 +32,9 @@ export class FillingCircleView extends Component {
 			}
 		).start(()=>{
 			this.tagHandler =TagsHandler;
+			this.tagHandler.setUnknownHandler(()=>{
+				play_sound("screamer");
+			});
 			Object.getOwnPropertyNames(Tags).map(l=>{
 				if(l.includes("chasse_"))
 				{
@@ -37,6 +42,8 @@ export class FillingCircleView extends Component {
 						//this.tagHandler.removeTagHandler(Tags[l]);
 						this.setState({ counter: this.state.counter + 1 });
 						if (this.state.counter >= 4) {
+							this.tagHandler.setUnknownHandler(() => {});
+							stop_ambiance("chasse")
 							Object.getOwnPropertyNames(Tags).map(l => { this.tagHandler.removeTagHandler(Tags[l]);});
 							this.next();
 						}

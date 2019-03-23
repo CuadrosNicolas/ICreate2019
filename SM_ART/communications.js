@@ -36,7 +36,7 @@ export function load()
 	try
 	{
 		AsyncStorage.getItem('server_ip').then((server_ip =>{
-			socket = new WebSocket('http://'+server_ip+':8080', 'echo-protocol');
+		socket = new WebSocket('http://'+server_ip+':8080', 'echo-protocol');
 		getIp = () => { return server_ip };
 		getSocket = () => { return socket };
 		alert(server_ip);
@@ -46,6 +46,7 @@ export function load()
 		socket.onerror = (e) => {
 			// an error occurred
 			alert(e.message);
+			alert(server_ip);
 			console.log(e.message);
 		};
 		// Listen for messages
@@ -62,7 +63,7 @@ export function load()
 		alert("ERROR : SERVER IP IS NOT SAVED ON THIS DEVICE")
 	}
 }
-function setMessageHandler(handler)
+export function setMessageHandler(handler)
 {
 	if(socket)
 	{
