@@ -11,6 +11,7 @@
     "react": "16.8.3",
     "react-native": "0.59.1",
     "react-native-fs": "^2.13.3",
+    "react-native-immersive": "^2.0.0",
     "react-native-nfc-manager": "^1.2.1",
     "react-native-popup-dialog": "^0.17.0",
     "react-native-sensor-manager": "^0.1.10"

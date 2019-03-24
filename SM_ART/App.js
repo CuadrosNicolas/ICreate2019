@@ -9,6 +9,7 @@
 import React, {Component} from 'react';
 import { View, StyleSheet } from 'react-native';
 import {MenuView} from './components/menuView';
+import { Immersive } from 'react-native-immersive';
 
 type Props = {};
 
@@ -16,6 +17,14 @@ export default class App extends Component<Props> {
   constructor(props)
   {
     super(props);
+    Immersive.on();
+    Immersive.setImmersive(true);
+    // listener for Immersive State recover
+    const restoreImmersive = () => {
+      Immersive.on();
+    }
+    Immersive.addImmersiveListener(restoreImmersive);
+    Immersive.removeImmersiveListener(restoreImmersive);
   }
   render() {
     return (<View style={styles.container}>

@@ -3,6 +3,7 @@ package com.sm_art;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnimmersive.RNImmersivePackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.rnfs.RNFSPackage;
 import community.revteltech.nfc.NfcManagerPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNImmersivePackage(),
             new AsyncStoragePackage(),
             new RNFSPackage(),
             new NfcManagerPackage(),

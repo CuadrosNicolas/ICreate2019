@@ -84,8 +84,8 @@ export class MenuView extends Component {
 						<View style={styles.buttonViewStyle}>
 							<TextInput style={{ height: 40, color: '#F5F5F5' }}
 								placeholder="Adresse IP du serveur"
+								placeholderTextColor='#F5F5F5'
 								onChangeText={(text) => this.setState({ ip_text: text })}
-								value={this.state.ip_text}
 							/>
 							<View style={styles.but}>
 								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 2 }); this.setBack(0); setIp(this.state.ip_text) }} title="Valider"></Button>
