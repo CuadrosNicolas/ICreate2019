@@ -2,7 +2,7 @@ import React, {
 	Component,
 } from 'react';
 import { Animated,Image, View, Text,StyleSheet } from 'react-native'
-import { play_sound, stop_sound, play_ambiance, stop_ambiance } from '../../communications';
+import { play_sound, stop_sound, play_ambiance, stop_ambiance,setMessageHandler } from '../../communications';
 import { gyroscopeHandler, lightHandler } from '../../events';
 import { app,Tags,TagsHandler} from './enigmaBase'
 export class SwaperView extends Component {
@@ -31,6 +31,36 @@ export class SwaperView extends Component {
 				duration: 2000,
 			}
 		).start(()=>this.setState({animInProgress:false}));
+	}
+	componentDidMount() {
+		this.gyroHandler = gyroscopeHandler((x, y, z) => {
+			if (z > this.threshold) {
+				this.left()
+			}
+			if (z < -this.threshold) {
+				this.right();
+			}
+		});
+		this.tagHandler = TagsHandler;
+		this.tagHandler.addTagHandler(Tags.portrait, () => {
+			try {
+				this.gyroHandler.stop();
+				this.tagHandler.removeTagHandler(Tags.portrait);
+				this.lightHandler = lightHandler((light) => {
+					if (light < 10 && this.state.continue == false) {
+						this.setState({ continue: true });
+						setTimeout(() => this.next(), 3000);
+					}
+					else if (light >= 10 && this.state.continue == true) {
+						this.setState({ continue: false });
+					}
+				});
+			}
+			catch (e) {
+				alert(e);
+			}
+		});
+		this.setPicture();
 	}
 	setPicture()
 	{
@@ -195,54 +225,25 @@ export class SwaperView extends Component {
 	{
 		if(this.state.continue)
 		{
-			stop_sound("auteur" + (this.state.num - 1));
+			stop_sound("auteur" + (this.state.num + 1));
 			if(this.state.num==this.solution)
 			{
 				play_sound("final_moins_bien");
+				setMessageHandler(({ data }) => {
+					setTimeout(() => { stop_sound("final_moins_bien"); app.end();}, parseInt(data) * 1000);
+					setMessageHandler(() => { });
+				})
 			}
 			else
 			{
+				alert("PERDU")
+				app.end();
 				//PREDU
 			}
 			this.lightHandler.stop();
-			app.end();
 		}
 	}
-	componentDidMount() {
-		this.gyroHandler = gyroscopeHandler((x,y,z)=>
-		{
-			if(z>this.threshold)
-			{
-				this.left()
-			}
-			if (z < -this.threshold) {
-				this.right();
-			}
-		});
-		this.tagHandler =TagsHandler;
-		this.tagHandler.addTagHandler(Tags.portrait, () => {
-			try
-			{
-				this.gyroHandler.stop();
-				this.tagHandler.removeTagHandler(Tags.portrait);
-				this.lightHandler = lightHandler((light) => {
-					if (light < 10 && this.state.continue==false) {
-						this.setState({continue:true});
-						setTimeout(()=>this.next(),3000);
-					}
-					else if(light>=10 && this.state.continue == true)
-					{
-						this.setState({ continue: false });
-					}
-				});
-			}
-			catch(e)
-			{
-				alert(e);
-			}
-		});
-		this.setPicture();
-	}
+
 	componentWillUnmount() {
 
 	}

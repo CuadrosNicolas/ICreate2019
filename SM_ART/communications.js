@@ -39,7 +39,6 @@ export function load()
 		socket = new WebSocket('http://'+server_ip+':8080', 'echo-protocol');
 		getIp = () => { return server_ip };
 		getSocket = () => { return socket };
-		alert(server_ip);
 		socket.onopen = () => {
 			//alert("Socket connected");
 		};

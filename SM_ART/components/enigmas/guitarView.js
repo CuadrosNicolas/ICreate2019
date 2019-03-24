@@ -5,7 +5,7 @@ import { Image, View, StyleSheet,Dimensions } from 'react-native'
 import {ShakingHandler} from '../../events';
 import {app,Tags,TagsHandler} from './enigmaBase';
 import {InterView} from './interView';
-import {play_sound,stop_sound, play_ambiance} from '../../communications';
+import {play_sound,stop_sound, play_ambiance,stop_ambiance} from '../../communications';
 var { height, width } = Dimensions.get('window');
 export class GuitarView extends Component {
 	constructor(props) {
@@ -17,10 +17,9 @@ export class GuitarView extends Component {
 		play_ambiance("ghost");
 		this.state = { printBack: false }
 		TagsHandler.addTagHandler(Tags.guitare,()=>{
-			stop_ambiance("ghost");
 			this.setState({printBack:true});
 			TagsHandler.removeTagHandler(Tags.guitare);
-			this.shakingHandler = ShakingHandler(7,18,()=>
+			this.shakingHandler = ShakingHandler(6,18,()=>
 			{
 				play_sound("bambino");
 			},
@@ -29,7 +28,8 @@ export class GuitarView extends Component {
 				stop_sound("bambino");
 			},()=>{
 				this.shakingHandler.stop();
-				app.nextSound("enigme2")
+				stop_ambiance("ghost");
+				app.nextSound("enigme2");
 			});
 		});
 	}

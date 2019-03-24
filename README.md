@@ -23,6 +23,7 @@ Les programmes qui composent ce projet permettent de mettre en place 5 énigmes 
 
 Chaque énigme est entrecoupée de séquences narratives audio permettant de faire avancer l'histoire.
 Il y a également divers sons d'ambiance lors de la résolution d'énigme en lien avec l'énigme et l'histoire du tableau.
+Cette escape game peut être parcouru par des groupes de 2-3 personnes.
 
 ## Installation
 
@@ -58,6 +59,7 @@ Après avoir installé les programmes nécessaires et mis en place la scène, su
 - Lancez le serveur  via la commande ```python3 server.py``` sur un ordinateur puis relevez l'adresse IP affichée dans la console.
 - Lancez l'application et utilisez le menu de configuration pour entrer l'adresse IP du serveur, vous pouvez aussi reconfigurer les IDs des tags NFC liés aux énimges via le menu *Tags*.
 - Ensuite vous pouvez lancer directement la partie via le bouton "lancer la partie", attention , une fois lancé vous avez 3 secondes pour placer le téléphone dans l'endroit sombre de la première étape.
+- Le jeu boucle sur lui même, une fois la dernière étape réalisé, le jeu retournera à la première étape.
 
 ## Auteurs
 

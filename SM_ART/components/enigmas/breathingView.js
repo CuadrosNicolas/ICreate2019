@@ -14,6 +14,8 @@ export class BreathingView extends Component {
 	constructor(props)
 	{
 		super(props);
+		this._ismounted = false;
+
 	}
 	state = {
 		fadeAnim: new Animated.Value(0),  // Initial value for opacity: 0
@@ -37,7 +39,7 @@ export class BreathingView extends Component {
 					duration: 1000,              // Make it take a while
 				}
 			)
-		]).start(()=>{alert("next");app.next()});
+		]).start(()=>{app.next()});
 	}
 	anim() {
 		if(this.state.continue)
@@ -78,17 +80,16 @@ export class BreathingView extends Component {
 		// Starts the animation
 	}
 	componentDidMount() {
+		this._ismounted = true;
 		this.setState({
 			fadeAnim: new Animated.Value(0),  // Initial value for opacity: 0
 			sizeAnim: new Animated.Value(0),
 			continue: true
 		});
 		if(this.props.sound){
-			alert("AH");
 			play_sound(this.props.sound);
 			setMessageHandler(({data})=>{
-				alert("TIME : "+data);
-				setTimeout(() => {stop_sound(this.props.sound),this.stop();}, parseInt(data)*1000 );
+				setTimeout(() => {stop_sound(this.props.sound);this.stop();}, parseInt(data)*1000 );
 				setMessageHandler(()=>{});
 			})
 		}
@@ -115,6 +116,8 @@ export class BreathingView extends Component {
 	}
 	componentWillUnmount = () => {
 	  this.state.continue = false;
+		this._ismounted = false;
+
 	};
 
 	render() {

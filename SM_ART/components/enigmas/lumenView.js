@@ -14,7 +14,7 @@ export class LumenView extends Component {
 	componentDidMount() {
 		play_ambiance("ghost")
 		this.lightHandler = lightHandler((light)=>{
-			if(light>5){
+			if(light>10){
 				stop_ambiance("ghost")
 				this.lightHandler.stop();
 				app.nextSound("intro");

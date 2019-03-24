@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, View,TextInput,TouchableHighlight } from 'react-native';
-import {GameView} from './gameView';
-import {BackgroundView} from './backgroundView';
-import {setIp, load} from '../communications'
-import {Tags,setTags,loadTags,TagsHandler} from './enigmas/enigmaBase'
-var actualTag = "";
+import { Button, StyleSheet, Text, View, TextInput, TouchableHighlight,BackHandler } from 'react-native';
+import { GameView } from './gameView';
+import { BackgroundView } from './backgroundView';
+import { setIp, load,getIp } from '../communications'
+import { Tags, setTags, loadTags, TagsHandler } from './enigmas/enigmaBase'
 export class MenuView extends Component {
 	//Application first screen
 	//Allow to access the configuration menu
@@ -15,21 +14,36 @@ export class MenuView extends Component {
 			actualView: 0,
 			visible: false,
 			ip_text: "",
-			actualTag: "",
 			views: [<View></View>]
 		}
+		this.last = null;
 	}
-	componentDidMount()
-	{
+	componentDidMount() {
+		BackHandler.exitApp = () => { };
+
 		//Preparing the tag handler
-		this.tagHandler =TagsHandler;
+		this.tagHandler = TagsHandler;
 		//Load the tags from the device
 		loadTags();
 		//Setup the interface
 		this.setup();
 	}
-	setup()
+	setBack(num,callback=null)
 	{
+		BackHandler.removeEventListener('hardwareBackPress',this.last);
+		this.last = () => {
+			if(callback)
+				callback();
+			this.setState({ actualView: num });
+		};
+		BackHandler.addEventListener('hardwareBackPress',this.last);
+
+	}
+	removeBack()
+	{
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+	}
+	setup() {
 		//Each view correspond to a menu
 		// 0 main menu
 		// 1 Game
@@ -42,17 +56,27 @@ export class MenuView extends Component {
 					<View style={styles.container}>
 						<Text style={styles.headline}>SM'ART</Text>
 						<View style={styles.buttonViewStyle}>
-							<Button style={styles.buttonStyle} onPress={() => this.setState({ actualView: 1 })} title="Lancer la partie"></Button>
-							<Button style={styles.buttonStyle} onPress={() => this.setState({ actualView: 2 })} title="Options"></Button>
+							<View style={styles.but}>
+								<Button style={styles.buttonStyle} onPress={() => {this.setState({ actualView: 1 });this.setBack(0)}} title="Lancer la partie"></Button>
+							</View>
+							<View style={styles.but}>
+								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 2 }); this.setBack(0)}} title="Options"></Button>
+							</View>
 						</View>
 					</View>,
-					<GameView end={()=>{this.setState({actualView:0})}} ></GameView>,
+					<GameView end={() => { this.setState({ actualView: 0 }) }} ></GameView>,
 					<View style={styles.container}>
 						<Text style={styles.headline}>Configurations</Text>
 						<View style={styles.buttonViewStyle}>
-							<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 3 }) }} title="Serveur"></Button>
-							<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 4 }) }} title="Tags"></Button>
-							<Button style={styles.buttonStyle} onPress={() => this.setState({ actualView: 0 })} title="Retour"></Button>
+							<View style={styles.but}>
+								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 3 }); this.setBack(2, () => { this.setBack(0) }) }} title="Serveur"></Button>
+							</View>
+							<View style={styles.but}>
+								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 4 }); this.setBack(2, () => { this.setBack(0) }) }} title="Tags"></Button>
+							</View>
+							<View style={styles.but}>
+								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 0 }); this.removeBack()}} title="Retour"></Button>
+							</View>
 						</View>
 					</View>,
 					<View style={styles.container}>
@@ -61,46 +85,57 @@ export class MenuView extends Component {
 							<TextInput style={{ height: 40, color: '#F5F5F5' }}
 								placeholder="Adresse IP du serveur"
 								onChangeText={(text) => this.setState({ ip_text: text })}
+								value={this.state.ip_text}
 							/>
-							<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 0 }); setIp(this.state.ip_text) }} title="Valider"></Button>
-							<Button style={styles.buttonStyle} onPress={() => this.setState({ actualView: 0 })} title="Retour"></Button>
+							<View style={styles.but}>
+								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 2 }); this.setBack(0); setIp(this.state.ip_text) }} title="Valider"></Button>
+							</View>
+							<View style={styles.but}>
+								<Button style={styles.buttonStyle} onPress={() => {this.setState({ actualView: 2 }); this.setBack(0);}} title="Retour"></Button>
+							</View>
 						</View>
 					</View>,
 					<View style={styles.container}>
 						<Text style={styles.headline}>Tags</Text>
-						<View style={styles.tagStyle}>
+						<View style={styles.container}>
 							{
 								//List all tags and create a button from it
 								Object.getOwnPropertyNames(Tags).map((l) => (
-									<TouchableHighlight onPress={() => {
-										//Add a NFC handler for the next menu
-										//To assign a tag to the selected variable
-										actualTag = l;
-										this.tagHandler.setUnknownHandler((t) => {
-											setTags(l, t.id);
-											this.setState({ actualView: 4 });
-											this.tagHandler.setUnknownHandler((t) => {
-											})
-										})
-										this.setState({ actualView: 5 });
-									}}>
-										<Text style={styles.headline}>{l}</Text>
-									</TouchableHighlight>
+									<View style={styles.but}>
+										<TouchableHighlight style={styles.tagStyle}  onPress={() => {
+											//Add a NFC handler for the next menu
+											//To assign a tag to the selected variable
+											this.setState({actualTag : l },()=>{
+												alert(this.state.actualTag);
+												this.tagHandler.setUnknownHandler((t) => {
+													setTags(l, t.id);
+													this.setState({ actualView: 4 });
+													this.tagHandler.setUnknownHandler((t) => {
+													})
+												});
+												this.setState({actualView: 5});
+												this.setBack(4,()=>{this.setBack(2)});
+											});
+										}}>
+											<Text style={styles.tagText}>{l}</Text>
+										</TouchableHighlight>
+									</View>
 								))
 							}
-							<Button style={styles.buttonStyle} onPress={() => this.setState({ actualView: 2 })} title="Retour"></Button>
+							<View style={styles.but}>
+								<Button style={styles.buttonStyle} onPress={() => this.setState({ actualView: 2 })} title="Retour"></Button>
+							</View>
 						</View>
 					</View>,
 					<View style={styles.container}>
-						<Text style={styles.headline}>{actualTag}</Text>
 						<Text style={styles.headline}>Scaner un tag pour effectuer l'association</Text>
-						<Button style={styles.buttonStyle} onPress={() => { this.tagHandler.setUnknownHandler = () => { }; this.setState({ actualView: 4 }) }} title="Retour"></Button>
+						<Text style={styles.headline}>{this.state.actualTag}</Text>
+						<Button style={styles.buttonStyle} onPress={() => { this.tagHandler.setUnknownHandler = () => { }; this.setState({ actualView: 4 }); this.setBack(2, () => { this.setBack(0)}); }} title="Retour"></Button>
 					</View>
 				]
 		});
 	}
-	componentWillUnmount()
-	{
+	componentWillUnmount() {
 	}
 	render() {
 		return (
@@ -115,7 +150,11 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#323232',
-		flexDirection : "column"
+		flexDirection: "column"
+	},
+	but: {
+		fontSize: 10,
+		padding: 5
 	},
 	headline: {
 		fontSize: 30,
@@ -124,20 +163,21 @@ const styles = StyleSheet.create({
 		color: '#F5F5F5'
 	},
 	tagStyle: {
-		fontSize: 30,
-		textAlign: 'center',
-		margin: 10,
-		color: '#F5F5F5',
 		backgroundColor: '#757090',
+		borderRadius: 10,
+		borderWidth: 1,
 	},
-	buttonViewStyle : {
+	tagText: {
+		fontSize: 20,
+		textAlign: 'center',
+		color: '#F5F5F5'
+	},
+	buttonViewStyle: {
 		flex: 1,
 		flexDirection: "column",
 	},
 	buttonStyle: {
 		flex: 1,
 		flexDirection: "column",
-		padding:100,
-		marginTop: 10
 	}
 });

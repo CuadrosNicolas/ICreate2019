@@ -67,7 +67,6 @@ export function tagHandler(unknownHandler)
 	return this;
 }
 function stopLight() {
-	alert("STOPING");
 	SensorManager.stopLightSensor();
 	DeviceEventEmitter.removeAllListeners('LightSensor');
 }

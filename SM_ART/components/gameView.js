@@ -14,16 +14,28 @@ import { GuitarView } from './enigmas/guitarView';
 import { FillingCircleView } from './enigmas/fillingCircleView';
 import { SwaperView } from './enigmas/swaperView';
 import { BreathingView } from './enigmas/breathingView';
-import {SoundView}   from './enigmas/soundView';
+import { SoundView } from './enigmas/soundView';
 import { setApp } from './enigmas/enigmaBase';
-import {load} from '../communications';
+import { load } from '../communications';
 
-
+/*
+			<GuitarView></GuitarView>,
+			<FillingCircleView></FillingCircleView>,
+			<SoundView></SoundView>,
+	**/
 export class GameView extends Component {
 	constructor(props) {
 		load();
 		super(props);
 		setApp(this);
+		this.setViews();
+		this.state = { step: 0 };
+	}
+	next() {
+		this.setState({ step: this.state.step + 1 });
+	}
+	setViews()
+	{
 		this.seqView = [
 			<BreathingView duration={3000}></BreathingView>,
 			<LumenView></LumenView>,
@@ -32,17 +44,14 @@ export class GameView extends Component {
 			<SoundView></SoundView>,
 			<SwaperView></SwaperView>,
 		];
-		this.state = { step: 0 };
 	}
-	next() {
-		this.setState({ step: this.state.step + 1 });
-	}
-	end()
-	{
-		this.props.end();
+	end() {
+		//this.props.end();
+		this.setViews();
+		this.setState({ step: 0 });
 	}
 	nextTimed(duration) {
-		this.seqView.splice(this.state.step+1, 0, <BreathingView duration={duration}></BreathingView>)
+		this.seqView.splice(this.state.step + 1, 0, <BreathingView duration={duration}></BreathingView>)
 		this.setState({ step: this.state.step + 1 });
 	}
 	nextSound(sound) {
