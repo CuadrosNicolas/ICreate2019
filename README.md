@@ -57,7 +57,7 @@ Et finalement si vous souhaitez produire une version signée de l'application vo
 
 Après avoir installé les programmes nécessaires et mis en place la scène, suivez les étapes suivantes afin de démarrer l'escape game :
 - Lancez le serveur  via la commande ```python3 server.py``` sur un ordinateur puis relevez l'adresse IP affichée dans la console.
-- Lancez l'application et utilisez le menu de configuration pour entrer l'adresse IP du serveur, vous pouvez aussi reconfigurer les IDs des tags NFC liés aux énimges via le menu *Tags*.
+- Lancez l'application et utilisez le menu de configuration pour entrer l'adresse IP du serveur, vous devez aussi reconfigurer les IDs des tags NFC liés aux énimges via le menu *Tags*.
 - Ensuite vous pouvez lancer directement la partie via le bouton "lancer la partie", attention , une fois lancé vous avez 3 secondes pour placer le téléphone dans l'endroit sombre de la première étape.
 - Le jeu boucle sur lui même, une fois la dernière étape réalisé, le jeu retournera à la première étape.
 

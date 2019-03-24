@@ -44,16 +44,13 @@ export function load()
 		};
 		socket.onerror = (e) => {
 			// an error occurred
-			alert(e.message);
-			alert(server_ip);
-			console.log(e.message);
+			alert("Erreur : impossible de se connecter au serveur, êtes-vous sûre d'avoir lancé le serveur et d'avoir bien configuré l'IP dans le menu de configuration de l'application ?");
 		};
 		// Listen for messages
 		socket.onmessage = (e) => {
 		};
 		socket.onclose = (e) => {
 			// connection closed
-			console.log(e.code, e.reason);
 		};
 	}));
 	}

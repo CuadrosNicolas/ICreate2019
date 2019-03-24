@@ -106,7 +106,6 @@ export class MenuView extends Component {
 											//Add a NFC handler for the next menu
 											//To assign a tag to the selected variable
 											this.setState({actualTag : l },()=>{
-												alert(this.state.actualTag);
 												this.tagHandler.setUnknownHandler((t) => {
 													setTags(l, t.id);
 													this.setState({ actualView: 4 });
