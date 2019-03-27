@@ -99,7 +99,7 @@ var gyroHandler = {
 	"stop":stop
 }
 export function gyroscopeHandler(callback) {
-	SensorManager.startGyroscope(600);
+	SensorManager.startGyroscope(100);
 	DeviceEventEmitter.addListener('Gyroscope', function (data) {
 		callback(data.x, data.y, data.z);
 	}

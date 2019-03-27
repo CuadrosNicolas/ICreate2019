@@ -17,14 +17,6 @@ export default class App extends Component<Props> {
   constructor(props)
   {
     super(props);
-    Immersive.on();
-    Immersive.setImmersive(true);
-    // listener for Immersive State recover
-    const restoreImmersive = () => {
-      Immersive.on();
-    }
-    Immersive.addImmersiveListener(restoreImmersive);
-    Immersive.removeImmersiveListener(restoreImmersive);
   }
   render() {
     return (<View style={styles.container}>

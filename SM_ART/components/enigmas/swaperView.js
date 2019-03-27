@@ -8,7 +8,7 @@ import { app,Tags,TagsHandler} from './enigmaBase'
 export class SwaperView extends Component {
 	constructor(props) {
 		super(props)
-		this.threshold = 3;
+		this.threshold = 5;
 		this.solution = 2;
 		this.previous = -1;
 		this.state = {

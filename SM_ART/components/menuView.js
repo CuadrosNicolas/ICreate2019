@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View, TextInput, TouchableHighlight,BackHandler } from 'react-native';
 import { GameView } from './gameView';
 import { BackgroundView } from './backgroundView';
-import { setIp, load,getIp } from '../communications'
+import { setIp, load,getIp,stopall } from '../communications'
 import { Tags, setTags, loadTags, TagsHandler } from './enigmas/enigmaBase'
 export class MenuView extends Component {
 	//Application first screen
@@ -57,7 +57,7 @@ export class MenuView extends Component {
 						<Text style={styles.headline}>SM'ART</Text>
 						<View style={styles.buttonViewStyle}>
 							<View style={styles.but}>
-								<Button style={styles.buttonStyle} onPress={() => {this.setState({ actualView: 1 });this.setBack(0)}} title="Lancer la partie"></Button>
+								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 1 }); this.setBack(0, () => stopall())}} title="Lancer la partie"></Button>
 							</View>
 							<View style={styles.but}>
 								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 2 }); this.setBack(0)}} title="Options"></Button>
