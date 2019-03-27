@@ -39,7 +39,7 @@ export class FillingCircleView extends Component {
 				if(l.includes("chasse_"))
 				{
 					this.tagHandler.addTagHandler(Tags[l], () => {
-						//this.tagHandler.removeTagHandler(Tags[l]);
+						this.tagHandler.removeTagHandler(Tags[l]);
 						this.setState({ counter: this.state.counter + 1 });
 						if (this.state.counter >= 4) {
 							this.tagHandler.setUnknownHandler(() => {});

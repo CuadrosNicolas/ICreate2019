@@ -19,7 +19,7 @@ export class GuitarView extends Component {
 		TagsHandler.addTagHandler(Tags.guitare,()=>{
 			this.setState({printBack:true});
 			TagsHandler.removeTagHandler(Tags.guitare);
-			this.shakingHandler = ShakingHandler(6,18,()=>
+			this.shakingHandler = ShakingHandler(4,18,()=>
 			{
 				play_sound("bambino");
 			},

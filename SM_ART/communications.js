@@ -15,6 +15,9 @@ export function play_ambiance(name)
 export function stop_ambiance(name) {
 	getSocket().send(JSON.stringify({ cmd: "stopa", arg: name })); // send a message
 }
+export function stopall() {
+	getSocket().send(JSON.stringify({ cmd: "stopall", arg: "" })); // send a message
+}
 export function play_sound(name,callback=0) {
 	getSocket().send(JSON.stringify({ cmd: "play", arg: name })); // send a message
 	getSocket().onmessage = (e) =>
