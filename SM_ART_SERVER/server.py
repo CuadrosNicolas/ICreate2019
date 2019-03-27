@@ -30,6 +30,7 @@ class Ambiance:
         self.sourceList = []
 
     def play(self):
+        print('> play ambiance ' + str(self.ambianceName))
         with open(AMBIANCE_PATH) as json_file:
             data = json.load(json_file)
             for source in data[self.ambianceName]:
@@ -39,7 +40,7 @@ class Ambiance:
                 source = oalOpen(path)
                 source.set_cone_inner_angle(360)
                 source.set_cone_outer_angle(360)
-                source.set_position((x,z,y))
+                source.set_position((x,y,z))
                 source.set_looping(True)
                 source.play()
                 self.sourceList.append(source)
@@ -48,6 +49,7 @@ class Ambiance:
             ambiancelist[self.ambianceName] = self
 
     def stop(self):
+        print('> stop ambiance ' + str(self.ambianceName))
         for source in self.sourceList:
             source.stop()
 
@@ -57,7 +59,7 @@ def play(args):
     if len(args) > 1:
         x,y,z = map(int, args[1].split(","))
     soundpath = SOUND_DIRECTORY + sound + ".wav"
-    print('play ' + soundpath)
+    print('> play ' + soundpath)
     if soundlist.get(sound): #if sound was in pause
         source = soundlist[sound]
     else:
@@ -68,30 +70,27 @@ def play(args):
     source.set_cone_inner_angle(360)
     source.set_cone_outer_angle(360)
     source.play()
-    print(soundlist)
     return str(audioread.audio_open(soundpath).duration)
 
 def pause(sound):
     soundpath = SOUND_DIRECTORY + sound + ".wav"
-    print('pause ' + soundpath)
+    print('> pause ' + soundpath)
     soundlist[sound].pause()
-    print(soundlist)
 
 def stop(sound, delete=True):
     soundpath = SOUND_DIRECTORY + sound + ".wav"
-    print('stop ' + soundpath)
-    soundlist[sound].stop()
-    if delete:
-        del soundlist[sound]
+    if sound in soundlist.keys():
+        print('> stop ' + soundpath)
+        soundlist[sound].stop()
+        if delete:
+            del soundlist[sound]
 
 def stopall():
     for sound in soundlist:
         stop(sound, delete=False)
     soundlist.clear()
-    print(soundlist)
     for ambiance in ambiancelist:
         ambiancelist[ambiance].stop()
-    print(ambiancelist)
 
 async def main(websocket, path):
     while True:
@@ -114,12 +113,10 @@ async def main(websocket, path):
         elif(cmd == "playa"):
             ambiance = Ambiance(args[0])
             ambiance.play()
-            print(ambiancelist)
 
         elif(cmd == "stopa"):
             ambiancelist[args[0]].stop()
             del ambiancelist[args[0]]
-            print(ambiancelist)
 
         elif(cmd == "stopall"):
             stopall()
@@ -135,7 +132,7 @@ contextlistener.set_position((0, 0, 0))
 
 #CREATE WEBSOCKET
 gsocket = websockets.serve(main, IP, PORT)
-print('server running at ' + IP + ':' + str(PORT))
+print('Server running at ' + IP + ':' + str(PORT))
 
 asyncio.get_event_loop().run_until_complete(gsocket)
 asyncio.get_event_loop().run_forever()
