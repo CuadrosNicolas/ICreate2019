@@ -29,6 +29,30 @@ Cette escape game peut être parcouru par des groupes de 2-3 personnes.
 
 ### Serveur de gestion du son
 
+#### Configuration des enceintes
+
+Le serveur a été conçu pour interagir avec des enceintes 5.1 (Creative T6300 pour nos tests). Normalement les enceintes sont automatiquement détectées et utilisées en 5.1.
+
+Si ce n'est pas le cas ou si les enceintes fonctionne seulement en stéréo, rendez-vous sur ce [site](https://kcat.strangesoft.net/openal.html) afin de télécharger l'archive nomée *openal-soft-1.19.1-bin*.
+Extraire les fichiers de l'archive et lancez dans une invite de commande Windows l'exécutable *openal-info64.exe*. Celui-ci va lister les périphériques audio disponibles, repérez alors vos enceintes. La ligne correspondante aux enceinte est de la forme ```OpenAL Soft on Haut-parleurs (USB Sound Device        )```.
+Copiez la ligne associée et dans le fichier ```server.py``` effectuez les changements suivants :
+
+```python
+oalInit()
+#Remplacer la ligne ci-dessus par la ligne suivante
+oalInit(b"OpenAL Soft on Haut-parleurs (USB Sound Device        )")
+```
+
+#### Installation du serveur
+Executez la commande suivante pour installer les packages nécessaires à l'installation du serveur :
+
+```bash
+oalInit()
+#Remplacer la ligne ci-dessus par la ligne suivante
+oalInit(b"OpenAL Soft on Haut-parleurs (USB Sound Device        )")
+```
+
+
 ### Application android
 
 #### Installation directe
