@@ -31,7 +31,7 @@ export function stop_sound(name) {
 	getSocket().send(JSON.stringify({ cmd: "stop", arg: name })); // send a message
 }
 
-export function load()
+export function load(error)
 {
 	/**
 	 * Connect the phone to the sound server
@@ -42,24 +42,29 @@ export function load()
 		socket = new WebSocket('http://'+server_ip+':8080', 'echo-protocol');
 		getIp = () => { return server_ip };
 		getSocket = () => { return socket };
+		var started = false;
 		socket.onopen = () => {
-			//alert("Socket connected");
+			started = true;
 		};
 		socket.onerror = (e) => {
 			// an error occurred
-			alert("Erreur : impossible de se connecter au serveur, êtes-vous sûre d'avoir lancé le serveur et d'avoir bien configuré l'IP dans le menu de configuration de l'application ?");
+			error(e);
 		};
 		// Listen for messages
 		socket.onmessage = (e) => {
 		};
 		socket.onclose = (e) => {
-			// connection closed
+			if(started)
+				alert("Erreur : Connexion au serveur interrompu");
+			started = true;
 		};
-	}));
+		}));
+		return true;
 	}
 	catch(error)
 	{
-		alert("ERROR : SERVER IP IS NOT SAVED ON THIS DEVICE")
+		alert("Erreur : L'adresse ip du serveur n'a pas été enregistré sur l'appareil");
+		return false;
 	}
 }
 export function setMessageHandler(handler)

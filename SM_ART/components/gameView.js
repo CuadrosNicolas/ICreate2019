@@ -17,6 +17,7 @@ import { BreathingView } from './enigmas/breathingView';
 import { SoundView } from './enigmas/soundView';
 import { setApp } from './enigmas/enigmaBase';
 import { load } from '../communications';
+import {isNFCEnabled} from '../events';
 
 /*
 			<GuitarView></GuitarView>,
@@ -25,7 +26,6 @@ import { load } from '../communications';
 	**/
 export class GameView extends Component {
 	constructor(props) {
-		load();
 		super(props);
 		setApp(this);
 		this.setViews();
@@ -33,6 +33,21 @@ export class GameView extends Component {
 	}
 	next() {
 		this.setState({ step: this.state.step + 1 });
+	}
+	componentDidMount()
+	{
+		load((e)=>{
+			alert("Erreur : impossible de se connecter au serveur, êtes-vous sûre d'avoir lancé le serveur et d'avoir bien configuré l'IP dans le menu de configuration de l'application ?");
+			this.props.end();
+		});
+		isNFCEnabled().then((r)=>{
+			if(!r)
+			{
+				alert("Erreur le NFC n'est pas activé !");
+				this.props.end();
+
+			}
+		});
 	}
 	setViews()
 	{
@@ -46,7 +61,6 @@ export class GameView extends Component {
 		];
 	}
 	end() {
-		//this.props.end();
 		this.setViews();
 		this.setState({ step: 0 });
 	}

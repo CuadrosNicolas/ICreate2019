@@ -4,6 +4,7 @@ import { GameView } from './gameView';
 import { BackgroundView } from './backgroundView';
 import { setIp, load,getIp,stopall } from '../communications'
 import { Tags, setTags, loadTags, TagsHandler } from './enigmas/enigmaBase'
+import {isNFCEnabled} from '../events'
 export class MenuView extends Component {
 	//Application first screen
 	//Allow to access the configuration menu
@@ -60,7 +61,7 @@ export class MenuView extends Component {
 								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 1 }); this.setBack(0, () => stopall())}} title="Lancer la partie"></Button>
 							</View>
 							<View style={styles.but}>
-								<Button style={styles.buttonStyle} onPress={() => { this.setState({ actualView: 2 }); this.setBack(0)}} title="Options"></Button>
+								<Button style={styles.buttonStyle} onPress={() => { if(!isNFCEnabled())alert("Activer le NFC et redémarrer l'application avant de pouvoir modifier les options."); this.setState({ actualView: 2 }); this.setBack(0)}} title="Options"></Button>
 							</View>
 						</View>
 					</View>,

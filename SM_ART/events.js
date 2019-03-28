@@ -36,7 +36,10 @@ export function ShakingHandler(time,threshold,activation,stop,callback)
 	this.stop = () => { SensorManager.stopAccelerometer();}
 	return this;
 }
-
+export function isNFCEnabled()
+{
+	return NfcManager.isEnabled();
+}
 export function tagHandler(unknownHandler)
 {
 	this.tagMap = {};

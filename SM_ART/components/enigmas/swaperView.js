@@ -236,8 +236,11 @@ export class SwaperView extends Component {
 			}
 			else
 			{
-				alert("PERDU")
-				app.end();
+				play_sound("game_over");
+				setMessageHandler(({ data }) => {
+					setTimeout(() => { stop_sound("game_over"); app.end(); }, parseInt(data) * 1000);
+					setMessageHandler(() => { });
+				})
 				//PREDU
 			}
 			this.lightHandler.stop();
