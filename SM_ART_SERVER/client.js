@@ -1,4 +1,4 @@
-var exampleSocket = new WebSocket('ws://127.0.1.1:8080');
+var exampleSocket = new WebSocket('ws://192.168.0.11:8080');
 
 var btn = document.getElementById('envoyer');
 var txt = document.getElementById('message');
