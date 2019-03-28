@@ -39,7 +39,7 @@ export function load(error)
 	try
 	{
 		AsyncStorage.getItem('server_ip').then((server_ip =>{
-		socket = new WebSocket('http://'+server_ip+':8080', 'echo-protocol');
+		socket = new WebSocket('ws://'+server_ip+':8080', 'echo-protocol');
 		getIp = () => { return server_ip };
 		getSocket = () => { return socket };
 		var started = false;
@@ -48,6 +48,7 @@ export function load(error)
 		};
 		socket.onerror = (e) => {
 			// an error occurred
+			alert(e.message);
 			error(e);
 		};
 		// Listen for messages

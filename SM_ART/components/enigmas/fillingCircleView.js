@@ -33,7 +33,7 @@ export class FillingCircleView extends Component {
 		).start(() => {
 			this.tagHandler = TagsHandler;
 			this.tagHandler.setUnknownHandler(() => {
-				if(Math.floor(Math.random()*4)>2)
+				if((Math.random()*4)>2)
 					play_sound("screamer");
 				else
 					play_sound("wrong")
